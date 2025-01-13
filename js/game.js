@@ -53,10 +53,17 @@ class GameController {
         // 开始游戏按钮
         const startButton = document.getElementById('start-button');
         startButton.addEventListener('click', () => {
-            console.log('Start button clicked'); // 调试日志
+            console.log('Start button clicked');
             soundController.play('click');
             animationController.buttonClickAnimation(startButton);
             this.startGame();
+        });
+
+        // 返回主页按钮
+        document.getElementById('home-button').addEventListener('click', () => {
+            soundController.play('click');
+            animationController.buttonClickAnimation(event.target);
+            this.returnToHome();
         });
 
         // 提交答案按钮
@@ -110,7 +117,7 @@ class GameController {
     bindUserEventHandlers() {
         // 登录按钮
         document.getElementById('login-button').addEventListener('click', () => {
-            console.log('Login button clicked'); // 调试日志
+            console.log('Login button clicked');
             soundController.play('click');
             animationController.buttonClickAnimation(document.getElementById('login-button'));
             const username = document.getElementById('username').value;
@@ -118,19 +125,37 @@ class GameController {
             this.handleLogin(username, password);
         });
 
-        // 注册按钮
+        // 注册按钮 - 显示注册模态窗口
         document.getElementById('register-button').addEventListener('click', () => {
-            console.log('Register button clicked'); // 调试日志
+            console.log('Register button clicked');
             soundController.play('click');
             animationController.buttonClickAnimation(document.getElementById('register-button'));
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            this.handleRegister(username, password);
+            this.showRegisterModal();
+        });
+
+        // 确认注册按钮
+        document.getElementById('confirm-register').addEventListener('click', () => {
+            console.log('Confirm register clicked');
+            soundController.play('click');
+            animationController.buttonClickAnimation(document.getElementById('confirm-register'));
+            this.handleModalRegister();
+        });
+
+        // 取消注册按钮
+        document.getElementById('cancel-register').addEventListener('click', () => {
+            soundController.play('click');
+            this.hideRegisterModal();
+        });
+
+        // 关闭按钮
+        document.querySelector('.close-button').addEventListener('click', () => {
+            soundController.play('click');
+            this.hideRegisterModal();
         });
 
         // 登出按钮
         document.getElementById('logout-button').addEventListener('click', () => {
-            console.log('Logout button clicked'); // 调试日志
+            console.log('Logout button clicked');
             soundController.play('click');
             animationController.buttonClickAnimation(document.getElementById('logout-button'));
             this.handleLogout();
@@ -466,6 +491,89 @@ class GameController {
         
         document.querySelector('.game-container').appendChild(completeScreen);
         this.resultScreen.style.display = 'none';
+    }
+
+    // 显示注册模态窗口
+    showRegisterModal() {
+        const modal = document.getElementById('register-modal');
+        modal.style.display = 'flex';
+        document.getElementById('reg-username').value = '';
+        document.getElementById('reg-password').value = '';
+        document.getElementById('reg-confirm-password').value = '';
+        document.getElementById('reg-message').textContent = '';
+        document.getElementById('reg-username').focus();
+    }
+
+    // 隐藏注册模态窗口
+    hideRegisterModal() {
+        const modal = document.getElementById('register-modal');
+        modal.style.display = 'none';
+    }
+
+    // 处理模态窗口注册
+    handleModalRegister() {
+        const username = document.getElementById('reg-username').value;
+        const password = document.getElementById('reg-password').value;
+        const confirmPassword = document.getElementById('reg-confirm-password').value;
+        const messageElement = document.getElementById('reg-message');
+
+        if (!username || !password || !confirmPassword) {
+            messageElement.textContent = '请填写所有字段';
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            messageElement.textContent = '两次输入的密码不一致';
+            return;
+        }
+
+        if (userManager.register(username, password)) {
+            soundController.play('correct');
+            this.hideRegisterModal();
+            // 自动填充登录表单
+            document.getElementById('username').value = username;
+            document.getElementById('password').value = password;
+            this.showAuthMessage('注册成功！请点击登录按钮进行登录');
+        } else {
+            soundController.play('wrong');
+            messageElement.textContent = '用户名已存在';
+        }
+    }
+
+    // 返回主页
+    returnToHome() {
+        // 停止背景音乐
+        soundController.stopBackgroundMusic();
+        
+        // 重置游戏状态
+        this.currentLevel = 1;
+        this.currentQuestionIndex = 0;
+        this.questions = [];
+        
+        // 重置小狐狸位置
+        this.fox.style.left = '10%';
+        
+        // 隐藏游戏界面和结果界面
+        this.gameScreen.style.display = 'none';
+        this.resultScreen.style.display = 'none';
+        
+        // 显示开始界面
+        this.startScreen.style.display = 'flex';
+        
+        // 重置暂停状态
+        const pauseButton = document.getElementById('pause-button');
+        pauseButton.textContent = '暂停';
+        this.gameScreen.classList.remove('paused');
+        
+        // 更新用户信息显示
+        if (userManager.currentUser) {
+            this.showUserInfo();
+        } else {
+            this.showLoginForm();
+        }
+        
+        // 更新排行榜
+        this.updateLeaderboard();
     }
 }
 

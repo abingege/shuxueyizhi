@@ -439,4 +439,121 @@ input[type="number"] {
 
 #logout-button:hover {
     background-color: #c0392b;
+}
+
+/* 模态窗口样式 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    position: relative;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close-button {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.close-button:hover {
+    color: #e74c3c;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.register-form input {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.register-form input:focus {
+    border-color: #74b9ff;
+    outline: none;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+#confirm-register {
+    background-color: #74b9ff;
+    color: white;
+}
+
+#confirm-register:hover {
+    background-color: #0984e3;
+}
+
+#cancel-register {
+    background-color: #b2bec3;
+    color: white;
+}
+
+#cancel-register:hover {
+    background-color: #636e72;
+}
+
+.modal h2 {
+    text-align: center;
+    color: #2d3436;
+    margin-bottom: 20px;
+}
+
+/* 返回主页按钮样式 */
+#home-button {
+    background-color: #e67e22;
+    margin-left: 10px;
+}
+
+#home-button:hover {
+    background-color: #d35400;
 } 
