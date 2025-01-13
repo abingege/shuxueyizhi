@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="森林数学探险是一个有趣的数学益智游戏，帮助小朋友在森林探险中学习数学知识。">
+    <meta name="keywords" content="数学游戏,儿童教育,益智游戏,森林探险">
+    <meta name="author" content="abingege">
+    <title>森林数学探险</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg width='60' height='60' xmlns='http://www.w3.org/2000/svg'><g transform='translate(5,5)'><ellipse cx='25' cy='30' rx='20' ry='15' fill='%23ff7043'/><circle cx='25' cy='20' r='12' fill='%23ff7043'/><path d='M15,15 L10,5 L20,12 Z' fill='%23ff7043'/><path d='M35,15 L40,5 L30,12 Z' fill='%23ff7043'/><circle cx='20' cy='18' r='2' fill='%23000'/><circle cx='30' cy='18' r='2' fill='%23000'/><circle cx='25' cy='22' r='2' fill='%23000'/></g></svg>">
+    <style>
+        :root {
+            --forest-bg: none;
+            --fox: none;
+            --star: none;
+        }
+    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- 游戏容器 -->
+    <div class="game-container">
+        <!-- 开始界面 -->
+        <div class="screen" id="start-screen">
+            <h1>森林数学探险</h1>
+            <p>帮助小狐狸通过解答数学题目找到回家的路！</p>
+            
+            <!-- 用户信息区域 -->
+            <div id="user-area">
+                <!-- 登录前显示 -->
+                <div id="login-form" class="auth-form">
+                    <form onsubmit="return false;">
+                        <input type="text" id="username" placeholder="用户名" required>
+                        <input type="password" id="password" placeholder="密码" required>
+                        <div class="auth-buttons">
+                            <button type="button" id="login-button">登录</button>
+                            <button type="button" id="register-button">注册</button>
+                        </div>
+                    </form>
+                    <p id="auth-message" class="message"></p>
+                </div>
+
+                <!-- 登录后显示 -->
+                <div id="user-info" class="user-panel" style="display: none;">
+                    <p>欢迎回来，<span id="user-name"></span>！</p>
+                    <p>你的星星：<span id="user-stars">0</span></p>
+                    <p>最高关卡：<span id="user-level">1</span></p>
+                    <button id="start-button">开始游戏</button>
+                    <button id="logout-button">退出登录</button>
+                </div>
+            </div>
+
+            <!-- 排行榜 -->
+            <div id="leaderboard" class="leaderboard">
+                <h2>排行榜</h2>
+                <div id="leaderboard-list"></div>
+            </div>
+
+            <button id="sound-toggle" class="icon-button">
+                <img src="" alt="声音开关" id="sound-icon">
+            </button>
+        </div>
+
+        <!-- 游戏主界面 -->
+        <div class="screen" id="game-screen" style="display: none;">
+            <!-- 顶部信息栏 -->
+            <div class="game-header">
+                <div class="user-info">
+                    <span id="header-username"></span>
+                </div>
+                <div class="level-info">关卡: <span id="current-level">1</span></div>
+                <div class="stars-info">星星: <span id="stars-count">0</span></div>
+                <button id="game-sound-toggle" class="icon-button">
+                    <img src="" alt="声音开关" id="game-sound-icon">
+                </button>
+            </div>
+
+            <!-- 游戏场景 -->
+            <div class="game-scene">
+                <!-- 森林背景将通过CSS设置 -->
+                <div class="character" id="fox"></div>
+                <!-- 题目区域 -->
+                <div class="question-box">
+                    <div class="question-text">准备好了吗？</div>
+                    <div class="answer-options">
+                        <input type="number" id="answer-input" placeholder="输入答案">
+                        <button id="submit-answer">确认</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游戏控制区 -->
+            <div class="game-controls">
+                <button id="hint-button">提示</button>
+                <button id="pause-button">暂停</button>
+            </div>
+        </div>
+
+        <!-- 结果界面 -->
+        <div class="screen" id="result-screen" style="display: none;">
+            <h2>太棒了！</h2>
+            <div class="level-complete-info">
+                <p>获得星星: <span id="stars-earned">0</span></p>
+                <p>用时: <span id="time-used">0</span>秒</p>
+                <p>总星星: <span id="total-stars">0</span></p>
+            </div>
+            <button id="next-level">下一关</button>
+            <button id="replay-level">重玩本关</button>
+        </div>
+    </div>
+
+    <!-- 游戏脚本 -->
+    <script src="js/resources.js"></script>
+    <script>
+        // 等待资源加载完成
+        window.addEventListener('load', () => {
+            // 设置CSS变量
+            const style = document.documentElement.style;
+            style.setProperty('--forest-bg', gameResources.images['forest-bg']);
+            style.setProperty('--fox', gameResources.images['fox']);
+            style.setProperty('--star', gameResources.images['star']);
+
+            // 设置声音图标
+            document.getElementById('sound-icon').src = gameResources.images['sound-on'];
+            document.getElementById('game-sound-icon').src = gameResources.images['sound-on'];
+        });
+    </script>
+    <script src="js/user.js"></script>
+    <script src="js/sounds.js"></script>
+    <script src="js/questions.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html> 

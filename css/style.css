@@ -1,0 +1,442 @@
+/* 全局样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f7ff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 游戏容器 */
+.game-container {
+    width: 100%;
+    max-width: 800px;
+    height: 600px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    background-image: var(--forest-bg);
+    background-size: cover;
+    background-position: center;
+}
+
+/* 通用屏幕样式 */
+.screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;  /* 默认隐藏所有场景 */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* 开始界面样式 */
+#start-screen {
+    display: flex;
+    background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
+    text-align: center;
+}
+
+#start-screen h1 {
+    font-size: 3em;
+    color: #2d3436;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#start-screen p {
+    font-size: 1.2em;
+    color: #636e72;
+    margin-bottom: 30px;
+}
+
+/* 游戏主界面样式 */
+#game-screen {
+    background: none;
+}
+
+.game-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-bottom: 2px solid #ddd;
+}
+
+.game-scene {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* 角色样式 */
+.character {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    bottom: 20%;
+    left: 10%;
+    background-image: var(--fox);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* 题目框样式 */
+.question-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.question-text {
+    font-size: 1.5em;
+    color: #2d3436;
+    margin-bottom: 15px;
+}
+
+.answer-options {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* 按钮通用样式 */
+button {
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 8px;
+    background-color: #74b9ff;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+button:hover {
+    background-color: #0984e3;
+    transform: scale(1.05);
+}
+
+/* 输入框样式 */
+input[type="number"] {
+    padding: 10px;
+    font-size: 1.1em;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    width: 120px;
+    text-align: center;
+}
+
+/* 游戏控制区样式 */
+.game-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+}
+
+/* 结果界面样式 */
+#result-screen {
+    background: linear-gradient(135deg, #81ecec 0%, #74b9ff 100%);
+    text-align: center;
+}
+
+#result-screen h2 {
+    font-size: 2.5em;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.level-complete-info {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.level-complete-info p {
+    font-size: 1.2em;
+    color: #2d3436;
+    margin: 10px 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .game-container {
+        height: 100vh;
+        max-width: 100%;
+        border-radius: 0;
+    }
+
+    #start-screen h1 {
+        font-size: 2em;
+    }
+
+    .question-text {
+        font-size: 1.2em;
+    }
+
+    .game-controls {
+        bottom: 10px;
+    }
+}
+
+/* 动画状态类 */
+.correct-answer {
+    animation: pulse-green 0.5s;
+}
+
+.wrong-answer {
+    animation: shake 0.5s;
+}
+
+/* 图标按钮样式 */
+.icon-button {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.icon-button:hover {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.icon-button:active {
+    transform: scale(0.95);
+}
+
+.icon-button img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+/* 游戏主界面的声音控制按钮位置调整 */
+#game-sound-toggle {
+    position: static;
+    margin-left: 15px;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+#game-sound-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 暂停状态样式 */
+.paused .game-scene {
+    filter: blur(3px);
+    pointer-events: none;
+}
+
+.paused::after {
+    content: "游戏暂停";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    color: #2d3436;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 修改星星样式 */
+.star {
+    width: 30px;
+    height: 30px;
+    background-image: var(--star);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* 修改声音控制按钮样式 */
+#sound-toggle img,
+#game-sound-toggle img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 当场景显示时添加淡入效果 */
+.screen[style*="display: flex"] {
+    animation: fadeIn 0.3s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* 用户认证表单样式 */
+.auth-form {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 300px;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+}
+
+.auth-form input:focus {
+    border-color: #74b9ff;
+    outline: none;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.message {
+    margin-top: 10px;
+    text-align: center;
+    color: #e74c3c;
+    min-height: 20px;
+}
+
+/* 用户信息面板样式 */
+.user-panel {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+.user-panel p {
+    margin: 10px 0;
+    color: #2d3436;
+}
+
+.user-panel button {
+    margin: 5px;
+}
+
+/* 排行榜样式 */
+.leaderboard {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 300px;
+}
+
+.leaderboard h2 {
+    text-align: center;
+    color: #2d3436;
+    margin-bottom: 15px;
+}
+
+.leaderboard-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.leaderboard-item:last-child {
+    border-bottom: none;
+}
+
+.leaderboard-rank {
+    font-weight: bold;
+    color: #e17055;
+    width: 30px;
+}
+
+.leaderboard-username {
+    flex-grow: 1;
+    margin: 0 10px;
+}
+
+.leaderboard-stars {
+    color: #f1c40f;
+    font-weight: bold;
+}
+
+/* 游戏头部用户信息样式 */
+.user-info {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin-right: 10px;
+}
+
+#header-username {
+    color: #2d3436;
+    font-weight: bold;
+}
+
+/* 登出按钮样式 */
+#logout-button {
+    background-color: #e74c3c;
+}
+
+#logout-button:hover {
+    background-color: #c0392b;
+} 
